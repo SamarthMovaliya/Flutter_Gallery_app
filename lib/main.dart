@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gallery_viewer_api_app/Controller/CattegoryProvider/Category_Provider.dart';
+import 'package:gallery_viewer_api_app/Controller/Providers/ThemeProvider/ThemeProvider.dart';
 import 'package:gallery_viewer_api_app/Modal/Modal_classes/Category_Modal_class.dart';
 import 'package:gallery_viewer_api_app/Views/Screens/HomeScreen.dart';
 import 'package:provider/provider.dart';
 
+import 'Controller/Providers/CattegoryProvider/Category_Provider.dart';
 import 'Views/Screens/SplashScreen.dart';
 import 'Views/Screens/ViewScreen.dart';
 
@@ -21,10 +22,23 @@ class myApp extends StatefulWidget {
 class _myAppState extends State<myApp> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => CategoryProvider(),
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => CategoryProvider()),
+          ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ],
         builder: (context, _) {
           return MaterialApp(
+            theme: ThemeData.light(
+              useMaterial3: true
+            ),
+            darkTheme: ThemeData.dark(
+              useMaterial3: true,
+            ),
+            themeMode:
+                (Provider.of<ThemeProvider>(context).themeModal.isDark == false)
+                    ? ThemeMode.light
+                    : ThemeMode.dark,
             debugShowCheckedModeBanner: false,
             initialRoute: 'SplashScreen',
             routes: {

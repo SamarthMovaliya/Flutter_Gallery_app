@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:gallery_viewer_api_app/Controller/CattegoryProvider/Category_Provider.dart';
 import 'package:gallery_viewer_api_app/Controller/Helpers/API_Helper.dart';
+import 'package:gallery_viewer_api_app/Controller/Providers/ThemeProvider/ThemeProvider.dart';
 import 'package:gallery_viewer_api_app/Modal/Modal_classes/Api_modal_class.dart';
 import 'package:gallery_viewer_api_app/Modal/resources/res.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
+
+import '../../Controller/Providers/CattegoryProvider/Category_Provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -28,12 +30,17 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           Expanded(
-            flex: 8,
+            flex: 9,
             child: Container(
               decoration: BoxDecoration(
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
-                    color: Colors.grey,
+                    color: (Provider.of<ThemeProvider>(context)
+                                .themeModal
+                                .isDark ==
+                            false)
+                        ? Colors.grey
+                        : Colors.black,
                     offset: Offset(2, 3),
                     blurRadius: 10,
                   )
@@ -58,17 +65,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Row(
-                        children: const [
-                          Icon(
+                        children: [
+                          const Icon(
                             Icons.menu_rounded,
                             color: Colors.white,
                             size: 30,
                           ),
-                          Spacer(),
-                          Icon(
-                            Icons.linked_camera,
-                            color: Colors.white,
-                            size: 30,
+                          const Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              Provider.of<ThemeProvider>(context, listen: false)
+                                  .changeTheTheme();
+                            },
+                            child: const Icon(
+                              Icons.sunny,
+                              color: Colors.white,
+                              size: 30,
+                            ),
                           ),
                         ],
                       ),
@@ -163,11 +176,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                 decoration: BoxDecoration(
                                   color: (categoryProvider.index.i ==
                                           category.indexOf(e))
-                                      ? Colors.grey.shade400
-                                      : Colors.white,
+                                      ? (Provider.of<ThemeProvider>(context)
+                                                  .themeModal
+                                                  .isDark ==
+                                              false)
+                                          ? Colors.grey
+                                          : Colors.white
+                                      : (Provider.of<ThemeProvider>(context)
+                                                  .themeModal
+                                                  .isDark ==
+                                              false)
+                                          ? Colors.white
+                                          : Colors.grey,
                                   boxShadow: const [
                                     BoxShadow(
-                                      color: Colors.grey,
+                                      color: Colors.black,
                                       offset: Offset(2, 3),
                                       blurRadius: 8,
                                     )
@@ -180,9 +203,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: Text(
                                       e,
                                       style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 22,
-                                      ),
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 22,
+                                          color: Colors.black),
                                     ),
                                   ),
                                 ),
