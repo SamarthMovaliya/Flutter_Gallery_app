@@ -41,6 +41,7 @@ This app is created in flutter SDK using Android Studio, basically this can be r
 ## Features
 
 - Splashscreen
+- Light and Dark Mode
 - Category Wise representation
 - FullScreen Photo Preview
 - Live Search Based on your keywords
